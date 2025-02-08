@@ -32,7 +32,7 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
     sim: SimulationCfg = SimulationCfg(dt=1 / 120, render_interval=decimation)
     terrain = TerrainImporterCfg(
         prim_path="/World/ground",
-        terrain_type="plane",
+        terrain_type="usd",
         collision_group=-1,
         physics_material=sim_utils.RigidBodyMaterialCfg(
             friction_combine_mode="average",

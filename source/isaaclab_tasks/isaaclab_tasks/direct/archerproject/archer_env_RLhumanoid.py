@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 from isaaclab_assets import HUMANOID_CFG
-
 import isaaclab.sim as sim_utils
 from isaaclab.assets import ArticulationCfg
 from isaaclab.envs import DirectRLEnvCfg
@@ -32,7 +31,8 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
     sim: SimulationCfg = SimulationCfg(dt=1 / 120, render_interval=decimation)
     terrain = TerrainImporterCfg(
         prim_path="/World/ground",
-        terrain_type="plane",
+        terrain_type="usd",
+        usd_path = "C:/Users/start/Documents/archer/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/direct/archerproject/archer_assets/maze.usd",
         collision_group=-1,
         physics_material=sim_utils.RigidBodyMaterialCfg(
             friction_combine_mode="average",
@@ -43,7 +43,6 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
         ),
         debug_vis=False,
     )
-
     # scene
     scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=4096, env_spacing=4.0, replicate_physics=True)
 
@@ -73,7 +72,7 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
         22.5,  # left_foot
     ]
 
-    heading_weight: float = 0.5
+    #heading_weight: float = 0.5
     up_weight: float = 0.1
 
     energy_cost_scale: float = 0.05

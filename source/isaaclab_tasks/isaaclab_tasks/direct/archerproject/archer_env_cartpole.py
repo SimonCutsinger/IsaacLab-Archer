@@ -77,7 +77,7 @@ def design_scene():
     cartpole_cfg.prim_path = "/World/Origin.*/Robot"
     cartpole = Articulation(cfg=cartpole_cfg)
 
-    cfg = sim_utils.UsdFileCfg(usd_path=f"C:/Users/start/Documents/archer/IsaacLab/archerproject/archer_assets/test_blocks.usd")
+    cfg = sim_utils.UsdFileCfg(usd_path=f"C:/Users/start/Documents/archer/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/direct/archerproject/archer_assets/maze.usd")
     cfg.func("/World/Objects/Blocks", cfg, translation=(-5.0, -5.0, 0.0))
     scene_entities = {"cartpole": cartpole}
 

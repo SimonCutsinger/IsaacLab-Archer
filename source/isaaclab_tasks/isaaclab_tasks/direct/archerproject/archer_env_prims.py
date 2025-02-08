@@ -111,8 +111,8 @@ def design_scene():
     # spawn a usd file of a table into the scene
 
     #cfg = sim_utils.UsdFileCfg(usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Mounts/SeattleLabTable/table_instanceable.usd")
-    cfg = sim_utils.UsdFileCfg(usd_path=f"./archerproject/archer_assets/test_blocks.usd")
-    cfg.func("/World/Objects/Blocks", cfg, translation=(-5.0, -5.0, 0.0))
+    cfg = sim_utils.UsdFileCfg(usd_path=f"C:/Users/start/Documents/archer/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/direct/archerproject/archer_assets/maze.usd")
+    cfg.func("/World/Objects/Blocks", cfg, translation=(0.0, 0.0, -3.0))
 
 def main():
     """Main function."""
