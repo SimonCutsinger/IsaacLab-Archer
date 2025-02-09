@@ -72,7 +72,7 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
         22.5,  # left_foot
     ]
 
-    #heading_weight: float = 0.5
+    heading_weight: float = 0.5
     up_weight: float = 0.1
 
     energy_cost_scale: float = 0.05
