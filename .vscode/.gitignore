@@ -7,4 +7,6 @@
 
 # Ignore all other files
 .python.env
-*.json
+settings.json
+extensions.json
+tasks.json
