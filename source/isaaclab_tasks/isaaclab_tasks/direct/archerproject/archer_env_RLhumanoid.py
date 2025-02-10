@@ -10,13 +10,16 @@ import isaaclab.sim as sim_utils
 from isaaclab.assets import Articulation, ArticulationCfg
 from isaaclab.envs import DirectRLEnvCfg
 from isaaclab.scene import InteractiveSceneCfg
+from isaaclab.scene import InteractiveScene
 from isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherSceneCfg
+from isaaclab.sim.spawners.from_files import spawn_from_usd
+from isaaclab.sim.spawners.from_files import UsdFileCfg
 from isaaclab.sim import SimulationCfg
 from isaaclab.terrains import TerrainImporterCfg
+from isaaclab.terrains import TerrainImporter
 from isaaclab.utils import configclass
 
 from isaaclab_tasks.direct.locomotion.locomotion_env import LocomotionEnv
-
 
 #pathing for assets
 cwd = Path.cwd()
@@ -31,22 +34,9 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
     state_space = 0
     # simulation
     sim: SimulationCfg = SimulationCfg(dt=1 / 120, render_interval=decimation)
-    terrain = TerrainImporterCfg(
-        prim_path="/World/ground",
-        terrain_type= "usd",
-        usd_path = f"{cwd}\\source\\isaaclab_tasks\\isaaclab_tasks\\direct\\archerproject\\archer_assets\\test_blocks.usd",
-        collision_group=-1,
-        physics_material=sim_utils.RigidBodyMaterialCfg(
-            friction_combine_mode="average",
-            restitution_combine_mode="average",
-            static_friction=1.0,
-            dynamic_friction=1.0,
-            restitution=0.0,
-        ),
-        debug_vis=False,
-    )
+
     # scene
-    scene: InteractiveSceneCfg = ArcherSceneCfg(num_envs=4096, env_spacing=26.0, replicate_physics=True)
+    scene = ArcherSceneCfg()
     # robot
     robot: ArticulationCfg = HUMANOID_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     joint_gears: list = [
@@ -87,18 +77,14 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
     angular_velocity_scale: float = 0.25
     contact_force_scale: float = 0.01
 
-
 class HumanoidEnv(LocomotionEnv):
     cfg: HumanoidEnvCfg
 
     def __init__(self, cfg: HumanoidEnvCfg, render_mode: str | None = None, **kwargs):
         super().__init__(cfg, render_mode, **kwargs)
+
     def _setup_scene(self):
         self.robot = Articulation(self.cfg.robot)
-        # add ground plane
-        self.cfg.terrain.num_envs = self.scene.cfg.num_envs
-        self.cfg.terrain.env_spacing = self.scene.cfg.env_spacing
-        self.terrain = self.cfg.terrain.class_type(self.cfg.terrain)
         # clone and replicate
         self.scene.clone_environments(copy_from_source=True)
         # add articulation to scene
