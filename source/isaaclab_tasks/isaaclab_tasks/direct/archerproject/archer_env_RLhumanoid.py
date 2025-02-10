@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from isaaclab_assets import HUMANOID_CFG
 import isaaclab.sim as sim_utils
-from isaaclab.assets import ArticulationCfg
+from isaaclab.assets import Articulation, ArticulationCfg
 from isaaclab.envs import DirectRLEnvCfg
 from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.sim import SimulationCfg
@@ -31,7 +31,7 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
     sim: SimulationCfg = SimulationCfg(dt=1 / 120, render_interval=decimation)
     terrain = TerrainImporterCfg(
         prim_path="/World/ground",
-        terrain_type="usd",
+        terrain_type= "usd",
         usd_path = "C:/Users/start/Documents/archer/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/direct/archerproject/archer_assets/maze.usd",
         collision_group=-1,
         physics_material=sim_utils.RigidBodyMaterialCfg(
@@ -44,7 +44,7 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
         debug_vis=False,
     )
     # scene
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=4096, env_spacing=4.0, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=4096, env_spacing=26.0, replicate_physics=True)
 
     # robot
     robot: ArticulationCfg = HUMANOID_CFG.replace(prim_path="/World/envs/env_.*/Robot")
@@ -71,7 +71,7 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
         22.5,  # left_foot
         22.5,  # left_foot
     ]
-
+    
     heading_weight: float = 0.5
     up_weight: float = 0.1
 
@@ -92,3 +92,16 @@ class HumanoidEnv(LocomotionEnv):
 
     def __init__(self, cfg: HumanoidEnvCfg, render_mode: str | None = None, **kwargs):
         super().__init__(cfg, render_mode, **kwargs)
+    def _setup_scene(self):
+        self.robot = Articulation(self.cfg.robot)
+        # add ground plane
+        self.cfg.terrain.num_envs = self.scene.cfg.num_envs
+        self.cfg.terrain.env_spacing = self.scene.cfg.env_spacing
+        self.terrain = self.cfg.terrain.class_type(self.cfg.terrain)
+        # clone and replicate
+        self.scene.clone_environments(copy_from_source=True)
+        # add articulation to scene
+        self.scene.articulations["robot"] = self.robot
+        # add lights
+        light_cfg = sim_utils.DomeLightCfg(intensity=2000.0, color=(0.75, 0.75, 0.75))
+        light_cfg.func("/World/Light", light_cfg)
