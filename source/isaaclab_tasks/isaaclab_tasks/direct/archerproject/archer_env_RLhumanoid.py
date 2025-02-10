@@ -10,7 +10,7 @@ import isaaclab.sim as sim_utils
 from isaaclab.assets import Articulation, ArticulationCfg
 from isaaclab.envs import DirectRLEnvCfg
 from isaaclab.scene import InteractiveSceneCfg
-from isaaclab_tasks.isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherSceneCfg
+from isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherSceneCfg
 from isaaclab.sim import SimulationCfg
 from isaaclab.terrains import TerrainImporterCfg
 from isaaclab.utils import configclass
