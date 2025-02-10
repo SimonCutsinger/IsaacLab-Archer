@@ -10,6 +10,7 @@ import isaaclab.sim as sim_utils
 from isaaclab.assets import Articulation, ArticulationCfg
 from isaaclab.envs import DirectRLEnvCfg
 from isaaclab.scene import InteractiveSceneCfg
+from isaaclab_tasks.isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherSceneCfg
 from isaaclab.sim import SimulationCfg
 from isaaclab.terrains import TerrainImporterCfg
 from isaaclab.utils import configclass
@@ -45,7 +46,7 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
         debug_vis=False,
     )
     # scene
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=4096, env_spacing=26.0, replicate_physics=True)
+    scene: InteractiveSceneCfg = ArcherSceneCfg(num_envs=4096, env_spacing=26.0, replicate_physics=True)
     # robot
     robot: ArticulationCfg = HUMANOID_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     joint_gears: list = [
