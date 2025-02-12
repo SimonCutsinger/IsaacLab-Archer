@@ -1,32 +1,34 @@
 ### LETS DO IT
 - Mission
-    - Train robots to operate in a DnD world (get the treasure, navigate maze)
-    - Make it a playable game where the players use reward functions to train the robot adventurers
+    - Train robots to operate in a DnD world (ex: get a treasure, navigate the maze)
+    - Make it a playable game where the players can use reward functions to train the robot adventurers
         - Teach how AI works
-    - Learn RL, robotics, and to sharpen programming skills
+    - Learn RL, robotics, and sharpen programming skills
     - Get internships/jobs at a robotics company
 ### Phases
 0. Setup and tutorials
 1. Hello world - Done
     - Unity level editor with usd export (maze.usd)
     - Import maze.usd with physics to isaac lab
-    - Recreate Isaaclab tutorials
+    - Recreate IsaacLab tutorials
 2. Self contained project - Done
     - Isaac lab prims with maze.usd
     - Isaac lab cartpole with maze.usd
-3. Direct learning
+3. Direct learning - Done
     - Maze generation in unity
-    - Humanoid with maze.usd and physics
-    - Each humanoid with own maze.usd
+    - Robot with maze.usd and physics
+    - Each robot with own maze.usd
 4. Train robot to complete simple task
-    - Maze.usd with markers (chest)
-    - Human runs to chest
+    - Maze.usd with goal point (chest)
+    - Robot runs to chest
 5. Custom tasks
-    - Avoid enemy
-    - Enemy chases adventurer
+    - Robot avoids enemy
+    - Enemy chases robot
+    - Combat?
+    - Team of robots coordinating to reach goal
 5. Second AI (guide)
-    - Feeds information of objectives to adventurer
-    - Navigate maze.usd
+    - Feeds information of objectives to robots
+    - Creates path through maze.usd
 6. Pre-train basic skills
     - Navigation
     - Locomotion
@@ -36,30 +38,36 @@
 ----------------------------------------------
 ### Leaderboard
 
-- top pains so far
+- Top pains so far
     - Finding solutions to errors online (resources in general)
         - Multiple environments broke physics on usd file
     - Learning the concepts
         - Hard to find relevant cfgs
         - Manipulating USD files per environment
-        - Explaining each training algorithym
-        - LycheeAI was the only youtube guy but not far enough into tutorials
+        - Explaining each training algorithym (ex: SB3, Rl_games)
     - Setting up project
         - Project folder needed to be moved to direct
-        - Referencing other files for github organization
         - Collecting robots from composer
         - vscode git ignore, ignores usd files
-- top 5 joys of v.2 isaaclab
-    - Humanoid interacting with maze
-    - Launch codes (awesome)
-    - Multiple AIs working together (Eric)
-    - 2.0 release
+- Top joys
+    - Duplicating an environment that has a maze and a robot
+    - Exporting first usd scene to IsaacLab
+    - 2.0 IsaacLab release
         - Improved tutorials
         - Folder organization
-        - Git hub clairty
-- top 5 future pains
-
-- Q
-maping animation to robots
+        - Git hub repo links for documentation
+    - Setting up VScode launch.json
+- Top future pains
+    - Multiple AIs working together
+    - Random maze generation for each environment
+    - Complex custom tasks
+    - Using the training data from IsaacLab in a game
+        - Putting environment into IsaacLab
+        - or
+        - Exporting the learning data from IsaacLab into another program
+- Questions
+    - Mapping animation to robots
+    - Getting robots to move to specific location - Possible solution
+        - Torch tensors (2/12 meeting)
 ----------------------------------------------
 ### Questions
