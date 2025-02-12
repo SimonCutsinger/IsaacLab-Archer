@@ -7,22 +7,17 @@ from __future__ import annotations
 from pathlib import Path
 from isaaclab_assets import HUMANOID_CFG
 import isaaclab.sim as sim_utils
-from isaaclab.assets import Articulation, ArticulationCfg
+from isaaclab.assets import ArticulationCfg
 from isaaclab.envs import DirectRLEnvCfg
-from isaaclab.scene import InteractiveSceneCfg
-from isaaclab.scene import InteractiveScene
-from isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherSceneCfg
-from isaaclab.sim.spawners.from_files import spawn_from_usd
-from isaaclab.sim.spawners.from_files import UsdFileCfg
 from isaaclab.sim import SimulationCfg
 from isaaclab.terrains import TerrainImporterCfg
-from isaaclab.terrains import TerrainImporter
 from isaaclab.utils import configclass
-
 from isaaclab_tasks.direct.locomotion.locomotion_env import LocomotionEnv
+from isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherSceneCfg
 
 #pathing for assets
 cwd = Path.cwd()
+
 @configclass
 class HumanoidEnvCfg(DirectRLEnvCfg):
     #env
@@ -32,13 +27,30 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
     action_space = 21
     observation_space = 75
     state_space = 0
+    terrain = TerrainImporterCfg(
+        prim_path="/World/ground",
+        terrain_type="plane",
+        collision_group=-1,
+        physics_material=sim_utils.RigidBodyMaterialCfg(
+            friction_combine_mode="average",
+            restitution_combine_mode="average",
+            static_friction=1.0,
+            dynamic_friction=1.0,
+            restitution=0.0,
+        ),
+        debug_vis=False,
+    )
     # simulation
     sim: SimulationCfg = SimulationCfg(dt=1 / 120, render_interval=decimation)
-
-    # scene
-    scene = ArcherSceneCfg()
-    # robot
     robot: ArticulationCfg = HUMANOID_CFG.replace(prim_path="/World/envs/env_.*/Robot")
+    # scene
+    scene: ArcherSceneCfg = ArcherSceneCfg(
+        num_envs=10, 
+        env_spacing=30.0, 
+        replicate_physics=True
+        )
+    # robot
+    #target
     joint_gears: list = [
         67.5000,  # lower_waist
         67.5000,  # lower_waist
@@ -76,19 +88,10 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
 
     angular_velocity_scale: float = 0.25
     contact_force_scale: float = 0.01
+    
 
 class HumanoidEnv(LocomotionEnv):
     cfg: HumanoidEnvCfg
 
     def __init__(self, cfg: HumanoidEnvCfg, render_mode: str | None = None, **kwargs):
         super().__init__(cfg, render_mode, **kwargs)
-
-    def _setup_scene(self):
-        self.robot = Articulation(self.cfg.robot)
-        # clone and replicate
-        self.scene.clone_environments(copy_from_source=True)
-        # add articulation to scene
-        self.scene.articulations["robot"] = self.robot
-        # add lights
-        light_cfg = sim_utils.DomeLightCfg(intensity=2000.0, color=(0.75, 0.75, 0.75))
-        light_cfg.func("/World/Light", light_cfg)

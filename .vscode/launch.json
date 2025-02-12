@@ -39,11 +39,19 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: Archer Training",
+            "name": "(SKRL)Archer Training",
             "type": "python",
             "request": "launch",
             "args" : ["--task", "Archer_Humanoid_Direct_v0"],
-            "program": "${workspaceFolder}/scripts/reinforcement_learning/rl_games/train.py",
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/train.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "(SB3)Archer Training",
+            "type": "python",
+            "request": "launch",
+            "args" : ["--task", "Archer_Humanoid_Direct_v0"],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/sb3/train.py",
             "console": "integratedTerminal"
         }
     ]
