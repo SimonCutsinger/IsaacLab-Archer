@@ -32,16 +32,31 @@
     - Locomotion
 7. UI for player
 8. DnD theme
-9. integrate scene creator with 
 
 ----------------------------------------------
 ### Leaderboard
 
-- top 5 pains so far
-
+- top pains so far
+    - Finding solutions to errors online (resources in general)
+        - Multiple environments broke physics on usd file
+    - Learning the concepts
+        - Hard to find relevant cfgs
+        - Manipulating USD files per environment
+        - Explaining each training algorithym
+        - LycheeAI was the only youtube guy but not far enough into tutorials
+    - Setting up project
+        - Project folder needed to be moved to direct
+        - Referencing other files for github organization
+        - Collecting robots from composer
+        - vscode git ignore, ignores usd files
 - top 5 joys of v.2 isaaclab
     - Humanoid interacting with maze
-
+    - Launch codes (awesome)
+    - Multiple AIs working together (Eric)
+    - 2.0 release
+        - Improved tutorials
+        - Folder organization
+        - Git hub clairty
 - top 5 future pains
 
 - Q
