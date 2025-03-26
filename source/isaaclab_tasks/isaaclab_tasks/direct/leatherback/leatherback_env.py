@@ -36,7 +36,7 @@ class LeatherbackEnvCfg(DirectRLEnvCfg):
     ]
 
     env_spacing = 32.0
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=4096, env_spacing=env_spacing, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=10, env_spacing=env_spacing, replicate_physics=True)
 
 class LeatherbackEnv(DirectRLEnv):
     cfg: LeatherbackEnvCfg
