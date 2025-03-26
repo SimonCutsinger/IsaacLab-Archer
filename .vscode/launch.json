@@ -53,6 +53,22 @@
             "args" : ["--task", "Archer_Humanoid_Direct_v0"],
             "program": "${workspaceFolder}/scripts/reinforcement_learning/sb3/train.py",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "(SKRL)Leatherback Training",
+            "type": "python",
+            "request": "launch",
+            "args" : ["--task", "Isaac-Leatherback-Direct-v0"],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/train.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "(SKRL)Leatherback Play",
+            "type": "python",
+            "request": "launch",
+            "args" : ["--task", "Isaac-Leatherback-Direct-v0"],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/play.py",
+            "console": "integratedTerminal"
         }
     ]
 }
