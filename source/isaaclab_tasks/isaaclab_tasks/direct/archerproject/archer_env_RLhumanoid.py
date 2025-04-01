@@ -15,6 +15,7 @@ from isaaclab.terrains import TerrainImporterCfg
 from isaaclab.utils import configclass
 from isaaclab_tasks.direct.locomotion.locomotion_env import LocomotionEnv
 from isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherSceneCfg
+from .archer_waypoint import WAYPOINT_CFG
 
 #pathing for assets
 cwd = Path.cwd()

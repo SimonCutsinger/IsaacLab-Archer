@@ -21,19 +21,35 @@
 4. Train robot to complete simple task
     - Maze.usd with goal point (chest)
     - Robot runs to chest
-5. Custom tasks
+        - Adding manual waypoints (using leatherback)
+        - Making the chest a waypoint using environment ID
+        - Lula kinematics solver
+        - Cumotion
+5. Maze solver AI
+    - Using isaacsim random maze generator
+    - Figure out how to reference completed AI training while training other AI (policy)
+        - Pre-trained walking humanoid
+        - maze solver AI
+        - Either AI controller or update policy
+    - Make the ai
+        - CuOpt?
+            - https://build.nvidia.com/nvidia/nvidia-cuopt
+        - Fleetmanager?
+    - Plug in the maze solver to robot AI with solution to maze
+    - Add rewards along the path it makes
+6. Custom tasks
     - Robot avoids enemy
     - Enemy chases robot
     - Combat?
     - Team of robots coordinating to reach goal
-5. Second AI (guide)
-    - Feeds information of objectives to robots
-    - Creates path through maze.usd
-6. Pre-train basic skills
+7. Third AI (co-op humanoids)
+    - Fleetmanager type thing or overseeing eye
+    - Faster work together training
+8. Pre-train basic skills
     - Navigation
     - Locomotion
-7. UI for player
-8. DnD theme
+9. UI for player
+10. DnD theme
 
 ----------------------------------------------
 ### Leaderboard
