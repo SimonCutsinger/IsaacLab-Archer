@@ -7,7 +7,6 @@ from __future__ import annotations
 from pathlib import Path
 from isaaclab_assets import HUMANOID_CFG
 import isaaclab.sim as sim_utils
-from isaaclab.assets import ArticulationCfg
 from isaaclab.assets import Articulation, ArticulationCfg
 from isaaclab.envs import DirectRLEnvCfg
 from isaaclab.sim import SimulationCfg
@@ -16,6 +15,7 @@ from isaaclab.utils import configclass
 from isaaclab_tasks.direct.locomotion.locomotion_env import LocomotionEnv
 from isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherSceneCfg
 from .archer_waypoint import WAYPOINT_CFG
+import torch
 
 #pathing for assets
 cwd = Path.cwd()
@@ -23,6 +23,8 @@ cwd = Path.cwd()
 @configclass
 class HumanoidEnvCfg(DirectRLEnvCfg):
     #env
+    proximity_reward_scale: float = 0.5  # Scaling factor for distance reward
+    target_prim_path: str = "/World/envs/env_.*/Maze/MainScene/Geometry/Grid/Tiles/Chest_Clone"  # Target prim path pattern
     episode_length_s = 15.0
     decimation = 2
     action_scale = 1.0
@@ -38,7 +40,7 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
 
     # robot
     robot: ArticulationCfg = HUMANOID_CFG.replace(prim_path="/World/envs/env_.*/Robot")
-
+    
     joint_gears: list = [
         67.5000,  # lower_waist
         67.5000,  # lower_waist
@@ -72,7 +74,7 @@ class HumanoidEnvCfg(DirectRLEnvCfg):
     dof_vel_scale: float = 0.1
 
     death_cost: float = -1.0
-    termination_height: float = 0
+    termination_height: float = 0.8
 
     angular_velocity_scale: float = 0.25
     contact_force_scale: float = 0.01
@@ -83,3 +85,38 @@ class HumanoidEnv(LocomotionEnv):
     def _setup_scene(self):
         self.robot = Articulation(self.cfg.robot)
         self.scene.articulations["robot"] = self.robot
+        # Add target prim to the scene
+        self.target = Articulation(
+            WAYPOINT_CFG.replace(prim_path=self.cfg.target_prim_path)
+        )
+        self.scene.articulations["target"] = self.target
+    def _get_termination_penalty(self) -> torch.Tensor:
+        """Calculate termination penalty based on height."""
+        # Get root positions (z-height)
+        root_pos = self.robot.data.root_pos_w[:, 2]
+        
+        # Check termination condition
+        terminated = root_pos < self.cfg.termination_height
+        return self.cfg.death_cost * terminated.float()
+    def _get_rewards(self) -> torch.Tensor:
+        # Existing reward calculations
+        alive_reward = self.cfg.alive_reward_scale * torch.ones(self.num_envs, device=self.device)
+        termination_penalty = self._get_termination_penalty()
+        
+        # Calculate proximity reward
+        humanoid_pos = self.robot.data.root_pos_w[:, :3]  # (x, y, z) position
+        target_pos = self.target.data.root_pos_w[:, :3]
+        
+        # Euclidean distance calculation
+        distance = torch.norm(humanoid_pos - target_pos, p=2, dim=-1)
+        proximity_reward = self.cfg.proximity_reward_scale * (-distance)
+        
+        # Combine rewards
+        total_reward = (
+            alive_reward
+            + termination_penalty
+            + proximity_reward
+            + alive_reward
+        )
+        
+        return total_reward
