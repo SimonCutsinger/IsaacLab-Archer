@@ -13,6 +13,7 @@ from .waypoint import WAYPOINT_CFG
 from isaaclab_assets.robots.leatherback import LEATHERBACK_CFG
 from isaaclab.markers import VisualizationMarkers
 from isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherSceneCfg
+import math
 
 @configclass
 class LeatherbackEnvCfg(DirectRLEnvCfg):
@@ -166,10 +167,12 @@ class LeatherbackEnv(DirectRLEnv):
         leatherback_pose[:, 1] = self.scene.env_origins[env_ids, 1] + 1  # Y position
         leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1  # Height (Z)
 
-        angles = torch.pi / 6.0 * torch.rand((num_reset), dtype=torch.float32, device=self.device)
-        leatherback_pose[:, 3] = torch.cos(angles * 0.5)
-        leatherback_pose[:, 6] = torch.sin(angles * 0.5)
-
+        yaw = math.radians(90)  # 90° rotation to face east
+        leatherback_pose[:, 3] = math.cos(yaw / 2)  # w component 
+        leatherback_pose[:, 4] = 0.0                 # x component
+        leatherback_pose[:, 5] = 0.0                 # y component
+        leatherback_pose[:, 6] = math.sin(yaw / 2)   # z component 
+        
         self.leatherback.write_root_pose_to_sim(leatherback_pose, env_ids)
         self.leatherback.write_root_velocity_to_sim(leatherback_velocities, env_ids)
         self.leatherback.write_joint_state_to_sim(joint_positions, joint_velocities, None, env_ids)
