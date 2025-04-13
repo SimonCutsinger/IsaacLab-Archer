@@ -16,7 +16,7 @@ class ArcherSceneCfg(InteractiveSceneCfg):
     maze = AssetBaseCfg(
         prim_path = "{ENV_REGEX_NS}/Maze",
         spawn = sim_utils.UsdFileCfg(usd_path = f"{cwd}\\source\\isaaclab_tasks\\isaaclab_tasks\\direct\\archerproject\\archer_assets\\maze_with_chest.usd"),
-        init_state = AssetBaseCfg.InitialStateCfg(pos = (0, 0, 0), rot = (0, 0, 0, 0)),
+        init_state = AssetBaseCfg.InitialStateCfg(pos = (0, 0, -.5), rot = (0, 0, 0, 0)),
         collision_group = 0
     )
 

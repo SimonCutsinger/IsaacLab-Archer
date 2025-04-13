@@ -42,8 +42,16 @@
             "name": "(SKRL)Archer Training",
             "type": "python",
             "request": "launch",
-            "args" : ["--task", "Archer_Humanoid_Direct_v0"],
+            "args" : ["--task", "Archer_Humanoid_Direct_v0", "--headless"],
             "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/train.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "(SKRL)Archer Play",
+            "type": "python",
+            "request": "launch",
+            "args" : ["--task", "Archer_Humanoid_Direct_v0"],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/play.py",
             "console": "integratedTerminal"
         },
         {
