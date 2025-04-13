@@ -17,7 +17,7 @@ from isaaclab_tasks.direct.archerproject.archer_interactive_scene import ArcherS
 from .archer_waypoint import WAYPOINT_CFG
 import torch
 from pxr import Usd, UsdGeom
-
+#for pxr to work you need to run 'pip install usd-core' in your venv
 #pathing for assets
 cwd = Path.cwd()
 
