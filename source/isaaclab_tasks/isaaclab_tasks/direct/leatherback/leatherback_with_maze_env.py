@@ -18,7 +18,7 @@ import math
 @configclass
 class LeatherbackEnvCfg(DirectRLEnvCfg):
     decimation = 4
-    episode_length_s = 20.0
+    episode_length_s = 120
     action_space = 2
     observation_space = 8
     state_space = 0

@@ -9,9 +9,9 @@ cwd = Path.cwd()
 @configclass
 class ArcherSceneCfg(InteractiveSceneCfg):
 
-    num_envs = 2
+    num_envs = 1024
     env_spacing = 30
-    replicate_physics = False
+    replicate_physics = True
 
     maze = AssetBaseCfg(
         prim_path = "{ENV_REGEX_NS}/Maze",

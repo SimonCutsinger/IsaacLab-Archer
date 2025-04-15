@@ -74,7 +74,7 @@
             "name": "(SKRL)Leatherback Maze Training",
             "type": "python",
             "request": "launch",
-            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-v0"],
+            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-v0", "--headless"],
             "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/train.py",
             "console": "integratedTerminal"
         },
@@ -82,7 +82,7 @@
             "name": "(SKRL)Leatherback Maze Play",
             "type": "python",
             "request": "launch",
-            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-v0"],
+            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-v0","--num_envs", "1"],
             "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/play.py",
             "console": "integratedTerminal"
         }
