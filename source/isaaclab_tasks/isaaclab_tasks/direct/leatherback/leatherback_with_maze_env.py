@@ -22,7 +22,7 @@ cwd = Path.cwd()
 @configclass
 class LeatherbackEnvCfg(DirectRLEnvCfg):
     decimation = 4
-    episode_length_s = 120
+    episode_length_s = 100
     action_space = 2
     observation_space = 8
     state_space = 0
@@ -348,25 +348,25 @@ class LeatherbackEnv(DirectRLEnv):
             # Rotate car to face upwards (north)
             leatherback_pose[:, 0] = self.scene.env_origins[env_ids, 0] + first_marker[0]      # X position
             leatherback_pose[:, 1] = self.scene.env_origins[env_ids, 1] + first_marker[1] - 1  # Y position
-            leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1  # Height (Z)
+            leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1                    # Height (Z)
             yaw = math.radians(90)
         elif self.spawn_side == 'bottom':
             # Rotate car to face downwards (south)
             leatherback_pose[:, 0] = self.scene.env_origins[env_ids, 0] + first_marker[0]      # X position
             leatherback_pose[:, 1] = self.scene.env_origins[env_ids, 1] + first_marker[1] + 1  # Y position
-            leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1  # Height (Z)
+            leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1                    # Height (Z)
             yaw = math.radians(270)
         elif self.spawn_side == 'left':
             # Rotate car to face left (west)
             leatherback_pose[:, 0] = self.scene.env_origins[env_ids, 0] + first_marker[0] - 1  # X position
             leatherback_pose[:, 1] = self.scene.env_origins[env_ids, 1] + first_marker[1]      # Y position
-            leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1  # Height (Z)
+            leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1                    # Height (Z)
             yaw = math.radians(0)
         elif self.spawn_side == 'right':
             # Rotate car to face right (east)
             leatherback_pose[:, 0] = self.scene.env_origins[env_ids, 0] + first_marker[0] + 1 # X position
             leatherback_pose[:, 1] = self.scene.env_origins[env_ids, 1] + first_marker[1]     # Y position
-            leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1  # Height (Z)
+            leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1                   # Height (Z)
             yaw = math.radians(180)
 
         # Construct quaternion for yaw rotation (only around z-axis here)
