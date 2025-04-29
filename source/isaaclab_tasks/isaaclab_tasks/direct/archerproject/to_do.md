@@ -19,12 +19,15 @@
     - Robot with maze.usd and physics
     - Each robot with own maze.usd
 4. Train robot to complete simple task
-    - Maze.usd with goal point (chest)
+    - Maze.usd with goal point (chest) - Done
     - Robot runs to chest
-        - Adding manual waypoints (using leatherback)
-        - Making the chest a waypoint using environment ID
-        - Lula kinematics solver
-        - Cumotion
+        - Adding manual waypoints (using leatherback) - Done
+        - Making the chest a waypoint using environment ID - Done
+            - Get humanoid moving
+            - Train a new policy using a robot with a policy assigned to it
+            - 
+        - Lula kinematics solver - Not useful
+        - Cumotion - Not useful
 5. Maze solver AI
     - Using isaacsim random maze generator
     - Figure out how to reference completed AI training while training other AI (policy)

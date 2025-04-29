@@ -22,7 +22,7 @@ HUMANOID_CFG = ArticulationCfg(
         usd_path=f"{ISAAC_NUCLEUS_DIR}/Robots/Humanoid/humanoid_instanceable.usd",
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=None,
-            max_depenetration_velocity=10.0,
+            max_depenetration_velocity=1.0,
             enable_gyroscopic_forces=True,
         ),
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
