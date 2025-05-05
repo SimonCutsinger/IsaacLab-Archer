@@ -26,11 +26,21 @@ gym.register(
 )
 
 gym.register(
-    id="Isaac-Leatherback-Direct-Maze-v0",
-    entry_point=f"{__name__}.leatherback_with_maze_env:LeatherbackEnv",
+    id="Isaac-Leatherback-Direct-Maze-Center-v0",
+    entry_point=f"{__name__}.leatherback_with_maze_center_env:LeatherbackEnv",
     disable_env_checker=True,
     kwargs={
-        "env_cfg_entry_point": f"{__name__}.leatherback_with_maze_env:LeatherbackEnvCfg",
+        "env_cfg_entry_point": f"{__name__}.leatherback_with_maze_center_env:LeatherbackEnvCfg",
+        "skrl_cfg_entry_point": f"{agents.__name__}:skrl_ppo_cfg.yaml",
+    },
+)
+
+gym.register(
+    id="Isaac-Leatherback-Direct-Maze-Full-v0",
+    entry_point=f"{__name__}.leatherback_with_maze_full_env:LeatherbackEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{__name__}.leatherback_with_maze_full_env:LeatherbackEnvCfg",
         "skrl_cfg_entry_point": f"{agents.__name__}:skrl_ppo_cfg.yaml",
     },
 )

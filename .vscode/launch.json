@@ -71,18 +71,34 @@
             "console": "integratedTerminal"
         }
         {
-            "name": "(SKRL)Leatherback Maze Training",
+            "name": "(SKRL)Leatherback Maze Center Training",
             "type": "python",
             "request": "launch",
-            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-v0", "--headless"],
+            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-Center-v0", "--headless"],
             "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/train.py",
             "console": "integratedTerminal"
         },
         {
-            "name": "(SKRL)Leatherback Maze Play",
+            "name": "(SKRL)Leatherback Maze Center Play",
             "type": "python",
             "request": "launch",
-            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-v0","--num_envs", "1"],
+            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-Center-v0","--num_envs", "1"],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/play.py",
+            "console": "integratedTerminal"
+        }
+        {
+            "name": "(SKRL)Leatherback Maze Full Training",
+            "type": "python",
+            "request": "launch",
+            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-Full-v0", "--headless"],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/train.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "(SKRL)Leatherback Maze Full Play",
+            "type": "python",
+            "request": "launch",
+            "args" : ["--task", "Isaac-Leatherback-Direct-Maze-Full-v0","--num_envs", "1"],
             "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/play.py",
             "console": "integratedTerminal"
         }
