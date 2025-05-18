@@ -49,16 +49,15 @@ class LeatherbackEnv(DirectRLEnv):
     cfg: LeatherbackEnvCfg
 
     def heuristic(self, a, b):
-            # Manhattan distance
             return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
     def astar(self, occupancy_map, start, goal):
-        neighbors = [(0,1),(1,0),(-1,0),(0,-1)]  # 4-directional
+        neighbors = [(0,1),(1,0),(-1,0),(0,-1)]
 
         close_set = set()
         came_from = {}
         gscore = {start: 0}
-        fscore = {start: self.heuristic(start, goal)}  # Now accessible
+        fscore = {start: self.heuristic(start, goal)}
         oheap = []
 
         heapq.heappush(oheap, (fscore[start], start))
@@ -67,13 +66,12 @@ class LeatherbackEnv(DirectRLEnv):
             current = heapq.heappop(oheap)[1]
 
             if current == goal:
-                # reconstruct path
                 data = []
                 while current in came_from:
                     data.append(current)
                     current = came_from[current]
                 data.append(start)
-                return data[::-1]  # reverse
+                return data[::-1]
 
             close_set.add(current)
             for i, j in neighbors:
@@ -95,7 +93,7 @@ class LeatherbackEnv(DirectRLEnv):
                 if  tentative_g_score < gscore.get(neighbor, 0) or neighbor not in [i[1] for i in oheap]:
                     came_from[neighbor] = current
                     gscore[neighbor] = tentative_g_score
-                    fscore[neighbor] = tentative_g_score + self.heuristic(neighbor, goal)  # Now accessible
+                    fscore[neighbor] = tentative_g_score + self.heuristic(neighbor, goal)
                     heapq.heappush(oheap, (fscore[neighbor], neighbor))
 
         return False
@@ -130,7 +128,7 @@ class LeatherbackEnv(DirectRLEnv):
 
         maze_width = 30
         maze_height = 30
-        occupancy_map = torch.zeros((maze_height, maze_width), dtype=torch.uint8)
+        occupancy_map = torch.zeros((maze_height, maze_width), dtype = torch.uint8)
         maze_origin_x = 0
         maze_origin_z = 0
         cell_size = 1
@@ -305,8 +303,10 @@ class LeatherbackEnv(DirectRLEnv):
             env_ids = self.leatherback._ALL_INDICES
         super()._reset_idx(env_ids)
 
+        num_reset = len(env_ids)
+
         # Ensure the shape is correct for multiple environments
-        marker_positions = self._occ_map()  # Get marker_positions from _occ_map()
+        marker_positions = self._occ_map()
 
         self._num_goals = len(marker_positions)
         self._target_positions = torch.zeros((self.num_envs, self._num_goals, 2), device=self.device, dtype=torch.float32)
@@ -318,7 +318,6 @@ class LeatherbackEnv(DirectRLEnv):
         # Expand manual_positions to handle multiple environments
         manual_positions = marker_positions.unsqueeze(0).expand(len(env_ids), -1, -1)
 
-        # Assign manual positions
         self._target_positions[env_ids, :, :2] = manual_positions
 
         # Adjust positions based on the environment's origin
@@ -326,13 +325,10 @@ class LeatherbackEnv(DirectRLEnv):
 
         self._target_index[env_ids] = 0
 
-        # Define the height for markers (adjust as needed)
-        marker_height = 0.5  # Change this value to the desired height
+        marker_height = 0.5
 
-        # Assign X and Y from target positions
         self._markers_pos[env_ids, :, :2] = self._target_positions[env_ids]
 
-        # Set Z to a fixed height
         self._markers_pos[env_ids, :, 2] = marker_height
 
         # car
@@ -342,42 +338,36 @@ class LeatherbackEnv(DirectRLEnv):
         joint_positions = self.leatherback.data.default_joint_pos[env_ids]
         joint_velocities = self.leatherback.data.default_joint_vel[env_ids]
 
-        first_marker = marker_positions[0]  # This will give a tensor of [x, y, z
+        first_marker = marker_positions[0]
 
         if self.spawn_side == 'top':
             # Rotate car to face upwards (north)
             leatherback_pose[:, 0] = self.scene.env_origins[env_ids, 0] + first_marker[0]      # X position
             leatherback_pose[:, 1] = self.scene.env_origins[env_ids, 1] + first_marker[1] - 1  # Y position
             leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1                    # Height (Z)
-            yaw = math.radians(90)
+            yaw = 90
         elif self.spawn_side == 'bottom':
             # Rotate car to face downwards (south)
             leatherback_pose[:, 0] = self.scene.env_origins[env_ids, 0] + first_marker[0]      # X position
             leatherback_pose[:, 1] = self.scene.env_origins[env_ids, 1] + first_marker[1] + 1  # Y position
             leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1                    # Height (Z)
-            yaw = math.radians(270)
+            yaw = 270
         elif self.spawn_side == 'left':
             # Rotate car to face left (west)
             leatherback_pose[:, 0] = self.scene.env_origins[env_ids, 0] + first_marker[0] - 1  # X position
             leatherback_pose[:, 1] = self.scene.env_origins[env_ids, 1] + first_marker[1]      # Y position
             leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1                    # Height (Z)
-            yaw = math.radians(0)
+            yaw = 0
         elif self.spawn_side == 'right':
             # Rotate car to face right (east)
             leatherback_pose[:, 0] = self.scene.env_origins[env_ids, 0] + first_marker[0] + 1 # X position
             leatherback_pose[:, 1] = self.scene.env_origins[env_ids, 1] + first_marker[1]     # Y position
             leatherback_pose[:, 2] = self.scene.env_origins[env_ids, 2] + 1                   # Height (Z)
-            yaw = math.radians(180)
+            yaw = 180
 
-        # Construct quaternion for yaw rotation (only around z-axis here)
-        w = math.cos(yaw / 2)
-        z = math.sin(yaw / 2)
-
-        # Quaternion components for rotation around the z-axis
-        leatherback_pose[:, 3] = w  # w component
-        leatherback_pose[:, 4] = 0.0  # x component (no rotation around x-axis)
-        leatherback_pose[:, 5] = 0.0  # y component (no rotation around y-axis)
-        leatherback_pose[:, 6] = z  # z component
+        radians = torch.deg2rad(torch.full((num_reset,), yaw, dtype=torch.float32, device=self.device))
+        leatherback_pose[:, 3] = torch.cos(radians * 0.5)
+        leatherback_pose[:, 6] = torch.sin(radians * 0.5)
         
         self.leatherback.write_root_pose_to_sim(leatherback_pose, env_ids)
         self.leatherback.write_root_velocity_to_sim(leatherback_velocities, env_ids)

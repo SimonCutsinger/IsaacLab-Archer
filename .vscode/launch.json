@@ -58,7 +58,7 @@
             "name": "(SKRL)Leatherback Training",
             "type": "python",
             "request": "launch",
-            "args" : ["--task", "Isaac-Leatherback-Direct-v0"],
+            "args" : ["--task", "Isaac-Leatherback-Direct-v0", "--headless"],
             "program": "${workspaceFolder}/scripts/reinforcement_learning/skrl/train.py",
             "console": "integratedTerminal"
         },
